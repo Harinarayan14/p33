@@ -4,7 +4,7 @@ const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
 var engine, world;
-var box1, pig1,pig3;
+var box1, enemy1,enemy2;
 var backgroundImg,platform;
 var bird, slingshot;
 
@@ -12,8 +12,8 @@ var gameState = "onSling";
 var score = 0;
 
 function preload() {
-   // backgroundImg = loadImage("sprites/bg.png");
-    timezone();
+   // backgroundImg = loadImage("pictures/bg.png");
+    getTime();
 }
 
 function setup(){
@@ -22,65 +22,72 @@ function setup(){
     world = engine.world;
 
 
-    ground = new Ground(600,height,1200,20);
+    ground = new Ground(600,390,1200,20);
     platform = new Ground(150, 305, 300, 170);
 
-    box1 = new Box(700,320,70,70);
-    box2 = new Box(920,320,70,70);
-    pig1 = new Pig(810, 350);
-    log1 = new Log(810,260,300, PI/2);
+    box1 = new Box(600,320,70,70);
+    box2 = new Box(820,320,70,70);
+    enemy1 = new Enemy(710, 350);
 
-    box3 = new Box(700,240,70,70);
-    box4 = new Box(920,240,70,70);
-    pig3 = new Pig(810, 220);
+    box3 = new Box(600,240,70,70);
+    box4 = new Box(820,240,70,70);
+    enemy2 = new Enemy(910, 350);
+    box5 = new Box(1000,240,70,70);
+    box6 = new Box(1000,350,70,70);
+    box7 = new Box(1000,130,70,70);
+    box8 = new Box(820,130,70,70);
+    box9 = new Box(600,130,70,70);
 
-    log3 =  new Log(810,180,300, PI/2);
 
-    box5 = new Box(810,160,70,70);
-    log4 = new Log(760,120,150, PI/7);
-    log5 = new Log(870,120,150, -PI/7);
-
-    bird = new Bird(200,50);
+    player = new Player(200,50);
 
     //log6 = new Log(230,180,80, PI/2);
-    slingshot = new SlingShot(bird.body,{x:200, y:50});
+    slingshot = new Slingshot(player.body,{x:200, y:50});
 }
 
 function draw(){
     if(backgroundImg)
     background(backgroundImg);
     Engine.update(engine);
-    //strokeWeight(4);
     box1.display();
+    box1.score();
     box2.display();
+    box2.score();
     ground.display();
-    pig1.display();
-    log1.display();
+    enemy1.display();
 
     box3.display();
+    box3.score();
     box4.display();
-    pig3.display();
-    log3.display();
+    box4.score();
+    enemy2.display();
 
     box5.display();
-    log4.display();
-    log5.display();
-
-    bird.display();
+    box5.score();
+    box6.display();
+    box6.score();
+    box7.display();
+    box7.score();
+    box8.display();
+    box8.score();
+    box9.display();
+    box9.score();
+    player.display();
     platform.display();
-    //log6.display();
     slingshot.display();    
-    pig1.score(); 
-    pig3.score();
-    push();
+    enemy1.score(); 
+    enemy2.score();
     fill(255);
-    text("Score:"+ score,1000,200);
-    pop();
+    text("Score:"+ score,100,100);
+    if(score>548){
+        textSize(30);
+        text("You Win!!!",400,300); 
+    }
 }
 
 function mouseDragged(){
     if (gameState!=="launched"){
-        Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+        Matter.Body.setPosition(player.body, {x: mouseX , y: mouseY});
     }
 }
 
@@ -92,18 +99,21 @@ function mouseReleased(){
 
 function keyPressed(){
     if(keyCode === 32){
-       // slingshot.attach(bird.body);
+        slingshot.attach(player.body);
+        player.trajectory=[];
+        gameState = "onSling";
+        Matter.Body.setPosition(player.body, {x: 200 , y:50 });
     }
 }
-async function timezone (){
-var resp = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
-var response = await resp.json();
-datetime1 = response.datetime;
+async function getTime (){
+var response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
+var responseJson = await response.json();
+datetime1 = responseJson.datetime;
  hr = datetime1.slice(11,13);
-if (hr >=6 && hr<= 15 ){
-    backgroundImg = loadImage("sprites/bg.png");
+if (hr >=6 && hr<= 18 ){
+    backgroundImg = loadImage("pictures/background.png");
 }
-else{
-   backgroundImg = loadImage("sprites/bg2.jpg");
+else {
+   backgroundImg = loadImage("pictures/background2.jpg");
 }
 }

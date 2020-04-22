@@ -1,1 +1,2 @@
-# AngryBirdsStage7
+# AngryFriends project
+Used animations instead of friends picture.

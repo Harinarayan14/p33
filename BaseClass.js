@@ -1,5 +1,5 @@
 class BaseClass{
-    constructor(x, y, width, height, angle) {
+    constructor(x, y, width, height) {
         var options = {
             'restitution':0.8,
             'friction':1.0,
@@ -8,7 +8,7 @@ class BaseClass{
         this.body = Bodies.rectangle(x, y, width, height, options);
         this.width = width;
         this.height = height;
-        this.image = loadImage("sprites/base.png");
+        this.image = loadImage("pictures/base.png");
         World.add(world, this.body);
       }
       display(){

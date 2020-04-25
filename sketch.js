@@ -10,6 +10,7 @@ var bird, slingshot;
 
 var gameState = "onSling";
 var score = 0;
+var tries = 0;
 
 function preload() {
    // backgroundImg = loadImage("pictures/bg.png");
@@ -78,8 +79,10 @@ function draw(){
     enemy1.score(); 
     enemy2.score();
     fill(255);
-    text("Score:"+ score,100,100);
-    if(score>548){
+    
+textSize(30);
+    text("Score:"+ Math.round(score*50/tries),1000,100);
+    if(Math.round(score*50/tries)>3000){
         textSize(30);
         text("You Win!!!",400,300); 
     }
@@ -95,10 +98,11 @@ function mouseDragged(){
 function mouseReleased(){
     slingshot.fly();
     gameState = "launched";
+    tries++;
 }
 
 function keyPressed(){
-    if(keyCode === 32){
+    if(keyCode === 32 && player.body.speed<2){
         slingshot.attach(player.body);
         player.trajectory=[];
         gameState = "onSling";

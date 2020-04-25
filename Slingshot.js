@@ -4,7 +4,7 @@ class Slingshot{
             bodyA: bodyA,
             pointB: pointB,
             stiffness: 0.04,
-            length: 10
+            length: 1
         }
         this.sling1 = loadImage('pictures/sling1.png');
         this.sling2 = loadImage('pictures/sling2.png');
